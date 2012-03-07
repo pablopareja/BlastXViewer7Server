@@ -56,12 +56,13 @@ public class LoadBlastFileFromUrlAndGetCoverageXMLServlet extends HttpServlet {
         OutputStream out = response.getOutputStream();
 
         String responseSt = "";
+        String requestId = "";
 
         try {
 
             String temp = request.getParameter(Request.TAG_NAME);
             Request myReq = new Request(temp);
-            String requestId = myReq.getId();
+            requestId = myReq.getId();
 
 
             System.out.println("myReq = " + myReq);
@@ -96,6 +97,7 @@ public class LoadBlastFileFromUrlAndGetCoverageXMLServlet extends HttpServlet {
 
                     } catch (IOException e) {
                         Response tempResp = new Response();
+                        tempResp.setId(requestId);
                         tempResp.setError("The url provided is not valid");
                         responseSt = tempResp.toString();
                     }
@@ -103,6 +105,7 @@ public class LoadBlastFileFromUrlAndGetCoverageXMLServlet extends HttpServlet {
 
                 } else {
                     Response tempResp = new Response();
+                    tempResp.setId(requestId);
                     tempResp.setError("There was no url specified");
                     responseSt = tempResp.toString();
                 }
@@ -110,6 +113,7 @@ public class LoadBlastFileFromUrlAndGetCoverageXMLServlet extends HttpServlet {
 
             } else {
                 Response tempResp = new Response();
+                tempResp.setId(requestId);
                 tempResp.setError("There is no such method");
                 responseSt = tempResp.toString();
             }
@@ -117,6 +121,7 @@ public class LoadBlastFileFromUrlAndGetCoverageXMLServlet extends HttpServlet {
 
         } catch (Exception e) {
             Response tempResp = new Response();
+            tempResp.setId(requestId);
             tempResp.setError("There was an error...\n" + e.getStackTrace()[0].toString());
             responseSt = tempResp.toString();
         }
